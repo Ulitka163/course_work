@@ -18,9 +18,11 @@ class YaUploader:
         headers = {'Authorization': f'OAuth {token}'}
         params = {'path': disk_file_path, 'url': filename}
         response = requests.post(url, headers=headers, params=params)
-        return response.json()
+        response.raise_for_status()
+        if response.status_code == 202:
+            print("Успешно")
 
-def copy_file(token, disk_file_path, photos, number_files=5):
+def copy_file(token, disk_file_path, photos, number_files):
     uploader = YaUploader(token)
     uploader.create_disk(disk_file_path)
     number = 0
@@ -33,8 +35,11 @@ def copy_file(token, disk_file_path, photos, number_files=5):
         else:
             break
 
+
 if __name__ == '__main__':
     photos = photo_vk_profile(input('Введите Ваш id "ВКОНТАКТЕ": '))
     token = input('Введите токен Вашего Яндекс Диска: ')
     disk_file_path = input('Введите название папки на Вашем Яндекс Диске куда будут перенесены Ваши файлы: ')
-    copy_file(token, disk_file_path, photos)
+    number = input('Введите колличество файлов: ')
+    copy_file(token, disk_file_path, photos, int(number if (number != '') else 5))
+
