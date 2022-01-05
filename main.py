@@ -1,16 +1,22 @@
 import requests
 from pprint import pprint
 
-def photo_vk_profile(owner_id):
+def photo_vk_profile(owner_id, album):
     with open('token.txt', 'r') as file:
         TOKEN = file.read().strip()
+
+    if not owner_id.isdigit():
+        url = 'https://api.vk.com/method/utils.resolveScreenName'
+        params = {'access_token': TOKEN, 'screen_name': owner_id, 'v': '5.131'}
+        result = requests.get(url, params)
+        owner_id = result.json()['response']['object_id']
 
     URL = 'https://api.vk.com/method/photos.get'
     PARAMS = {
         'access_token': TOKEN,
         'v': '5.131',
         'owner_id': owner_id,
-        'album_id': 'profile',
+        'album_id': album,
         'extended': '1',
         'photo_sizes': '1'
     }
@@ -26,4 +32,4 @@ def photo_vk_profile(owner_id):
 
 
 if __name__ == '__main__':
-    photo_vk_profile(input())
+    photo_vk_profile(input(), input())

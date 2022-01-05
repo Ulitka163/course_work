@@ -37,7 +37,9 @@ def copy_file(token, disk_file_path, photos, number_files):
 
 
 if __name__ == '__main__':
-    photos = photo_vk_profile(input('Введите Ваш id "ВКОНТАКТЕ": '))
+    photos = photo_vk_profile(input('Введите Ваш id "ВКОНТАКТЕ": '),
+                              input('Если Вы хотите сохранить фотографии со стены введите - wall,'
+                                    'Если Вы хотите сохранить фотографии профиля введите - profile: '))
     token = input('Введите токен Вашего Яндекс Диска: ')
     disk_file_path = input('Введите название папки на Вашем Яндекс Диске куда будут перенесены Ваши файлы: ')
     number = input('Введите колличество файлов: ')
